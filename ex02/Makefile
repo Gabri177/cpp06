@@ -1,4 +1,4 @@
-CFILE = main.cpp Serialization.cpp
+CFILE = main.cpp A.cpp B.cpp C.cpp Base.cpp
 OFILE = $(CFILE:.cpp=.o)
 CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 NAME = Test
