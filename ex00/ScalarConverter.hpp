@@ -9,10 +9,14 @@
 class ScalarConverter {
 
 	private:
+												ScalarConverter();
+												ScalarConverter(const ScalarConverter & obj);
+		ScalarConverter &						operator=(const ScalarConverter & obj);
+												~ScalarConverter();
+
 		static bool								isInt(const std::string & chrs);
 		static bool								isFloat(const std::string & chrs);
 		static bool								isDouble(const std::string & chrs);
-
 		static void								toChar(const std::string & chrs);
 		static void								toInt(const std::string & chrs);
 		static void								toFloat(const std::string & chrs);

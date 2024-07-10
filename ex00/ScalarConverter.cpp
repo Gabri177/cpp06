@@ -1,5 +1,10 @@
 #include "ScalarConverter.hpp"
 
+                                    ScalarConverter::ScalarConverter(){}
+                                    ScalarConverter::ScalarConverter(const ScalarConverter & obj){}
+ScalarConverter &					ScalarConverter::operator=(const ScalarConverter & obj){return *this;}
+                                    ScalarConverter::~ScalarConverter(){}
+
 
 
 void								ScalarConverter::convert(const std::string & chrs){
