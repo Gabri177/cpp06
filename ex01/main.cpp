@@ -1,13 +1,13 @@
-#include "ScalarConverter.hpp"
+#include "Serialization.hpp"
 
 
-int main(int argc, char **argv){
+int main (){
 
-	if (argc == 1 || argc > 2){
+	Data test;
+	test.num = 123;
+	test.str = "jajaja";
 
-		std::cerr << "Wrong number of arguments!!!" << std::endl;
-		return 0;
-	}
-	ScalarConverter::convert(argv[1]);
-	return 0;
+	Data nuevo = *Serialization::deserialize(Serialization::serialize(&test));
+	std::cout << "num:  " << nuevo.num << "; str:  " << nuevo.str << std::endl;
+	return 0;	
 }
