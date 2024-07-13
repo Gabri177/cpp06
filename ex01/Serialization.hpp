@@ -3,6 +3,8 @@
 # include <iostream>
 # include <string>
 
+typedef	size_t	uintptr_t;
+
 typedef struct Data {
 
 	int	 			num;

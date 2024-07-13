@@ -4,7 +4,7 @@
 # include <string>
 # include <cstdlib>
 # include <ctime>
-# include <cstdint>
+# include <typeinfo>
 
 class Base {
 

@@ -1,18 +1,34 @@
 #include "ScalarConverter.hpp"
 
                                     ScalarConverter::ScalarConverter(){}
-                                    ScalarConverter::ScalarConverter(const ScalarConverter & obj){}
-ScalarConverter &					ScalarConverter::operator=(const ScalarConverter & obj){return *this;}
+                                    ScalarConverter::ScalarConverter(const ScalarConverter & obj){*this = obj;}
+ScalarConverter &					ScalarConverter::operator=(const ScalarConverter & obj){ (void)obj;return *this;}
                                     ScalarConverter::~ScalarConverter(){}
 
 
 
 void								ScalarConverter::convert(const std::string & chrs){
 
-    toChar(chrs);
-    toInt(chrs);
-    toFloat(chrs);
-    toDouble(chrs);
+    try{
+        toChar(chrs);
+    }catch(std::exception & e){
+        std::cout << e.what() << std::endl;
+    }
+    try{
+        toInt(chrs);
+    }catch(std::exception & e){
+        std::cout << e.what() << std::endl;
+    }
+    try{
+        toFloat(chrs);
+    }catch(std::exception & e){
+        std::cout << e.what() << std::endl;
+    }
+    try{
+        toDouble(chrs);
+    }catch(std::exception & e){
+        std::cout << e.what() << std::endl;
+    }
 }
 
 
@@ -48,12 +64,11 @@ void 								ScalarConverter::toChar(const std::string& chr) {
         c = chr[0];
     if (isInt(chr) || !isFloat(chr) || !isDouble(chr)){
 
-        try{
-
-            int val = std::stoi(chr);
-            if (val >= 0 && val <= 128)
-                c = std::stoi(chr);
-        }catch(...){}
+        char* end;
+        errno = 0;
+        long val = std::strtol(chr.c_str(), &end, 10);
+        if (errno == 0 && (*end == '\0' || *end == 'f' || *end == '.') &&  val >= 0 && val <= 128)
+            c = val;
     }
     if (c != -1){
         if (isprint(c))
@@ -71,16 +86,15 @@ void 								ScalarConverter::toInt(const std::string& chr) {
         std::cout << "Int: " << "impossible" << std::endl;
         return ;
     }
-    try {
-        int value = std::stoi(chr);
-        std::cout << "int: " << value << std::endl;
-    }
-    catch (std::exception & e){ 
-        
-        std::cout << "Int: " << "impossible" << std::endl; 
-        return;
-    }
-    
+
+    errno = 0;
+    char* end;
+
+    long val = std::strtol(chr.c_str(), &end, 10);
+    //std::cout << val << std::endl;
+    if (errno != 0 || (*end != '\0' && *end != 'f' && *end != '.') || val < std::numeric_limits<int>::min() || val > std::numeric_limits<int>::max())
+        throw std::runtime_error("Int: impossible");
+    std::cout << "Int: " << val << std::endl;
 }
 
 void 								ScalarConverter::toFloat(const std::string& chr) {
@@ -90,16 +104,12 @@ void 								ScalarConverter::toFloat(const std::string& chr) {
         std::cout << "Float: " << "impossible" << std::endl;
         return ;
     }
-    try{
-        
-        float value = std::stof(chr);
-        std::cout << "float: " << std::fixed << std::setprecision(1) << value << "f" << std::endl;
-    }
-    catch (std::exception & e){
-
-        std::cout << "Float: " << "impossible" << std::endl;
-        return ;
-    }
+    char *end;
+    errno = 0;
+    float val = std::strtof(chr.c_str(), &end);
+    if (errno != 0 || (*end != '\0' && *end !='f') || val < -std::numeric_limits<float>::max() || val > std::numeric_limits<float>::max())
+        throw std::runtime_error("Float: impossible");
+    std::cout << "Float: " << std::fixed << std::setprecision(1) << val << "f" << std::endl;
 }
 
 void 								ScalarConverter::toDouble(const std::string& chr) {
@@ -109,14 +119,10 @@ void 								ScalarConverter::toDouble(const std::string& chr) {
         std::cout << "Double: " << "impossible" << std::endl;
         return ;
     }
-    try{
-
-        double value = std::stod(chr);
-        std::cout << "double: " << std::fixed << std::setprecision(1) << value << std::endl;
-    }
-    catch (std::exception & e){
-
-        std::cout << "Double: " << "impossible" << std::endl;
-        return ;
-    }
+    char *end;
+    errno = 0;
+    float val = std::strtod(chr.c_str(), &end);
+    if (errno != 0 || (*end != '\0' && *end !='f') || val < -std::numeric_limits<double>::max() || val > std::numeric_limits<double>::max())
+        throw std::runtime_error("Double: impossible");
+    std::cout << "Double: " << std::fixed << std::setprecision(1) << val << std::endl;
 }

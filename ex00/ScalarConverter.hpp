@@ -5,6 +5,8 @@
 # include <cstdlib>
 # include <cctype>
 # include <iomanip>
+# include <limits>
+# include <errno.h>
 
 class ScalarConverter {
 

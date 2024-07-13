@@ -1,7 +1,7 @@
 CFILE = main.cpp ScalarConverter.cpp
 OFILE = $(CFILE:.cpp=.o)
 CPPFLAGS = -Wall -Wextra -Werror -std=c++98
-NAME = Test
+NAME = convert
 
 all: $(NAME)
 
