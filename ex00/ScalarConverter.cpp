@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScalarConverter.cpp                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yugao <yugao@student.42madrid.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/13 13:23:23 by yugao             #+#    #+#             */
+/*   Updated: 2024/07/14 12:20:13 by yugao            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ScalarConverter.hpp"
 
                                     ScalarConverter::ScalarConverter(){}
@@ -54,7 +66,7 @@ bool 								ScalarConverter::isDouble(const std::string& chr) {
 
 void 								ScalarConverter::toChar(const std::string& chr) {
 
-    if (!isInt(chr) && !isFloat(chr) && !isDouble(chr)){
+    if (!isInt(chr) && !isFloat(chr) && !isDouble(chr) && chr.size() != 1){
 
         std::cout << "char: " << "impossible" << std::endl;
         return ;
@@ -90,7 +102,7 @@ void 								ScalarConverter::toInt(const std::string& chr) {
     errno = 0;
     char* end;
 
-    long val = std::strtol(chr.c_str(), &end, 10);
+    long val = static_cast<long>(std::strtod(chr.c_str(), &end));
     //std::cout << val << std::endl;
     if (errno != 0 || (*end != '\0' && *end != 'f' && *end != '.') || val < std::numeric_limits<int>::min() || val > std::numeric_limits<int>::max())
         throw std::runtime_error("Int: impossible");
@@ -98,7 +110,15 @@ void 								ScalarConverter::toInt(const std::string& chr) {
 }
 
 void 								ScalarConverter::toFloat(const std::string& chr) {
-
+    
+    if (chr == "+inf"){
+        std::cout << "Float: " << "+inf" << std::endl;
+        return ;
+    }
+    if (chr == "-inf"){
+        std::cout << "Float: " << "-inf" << std::endl;
+        return ;
+    }
     if (!isFloat(chr) && !isDouble(chr)){
 
         std::cout << "Float: " << "impossible" << std::endl;
@@ -114,6 +134,14 @@ void 								ScalarConverter::toFloat(const std::string& chr) {
 
 void 								ScalarConverter::toDouble(const std::string& chr) {
 
+    if (chr == "+inf"){
+        std::cout << "Float: " << "+inf" << std::endl;
+        return ;
+    }
+    if (chr == "-inf"){
+        std::cout << "Float: " << "-inf" << std::endl;
+        return ;
+    }
     if (!isFloat(chr) && !isDouble(chr)){
 
         std::cout << "Double: " << "impossible" << std::endl;
